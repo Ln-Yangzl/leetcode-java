@@ -7,34 +7,31 @@ package org.zlyang.leetcode;
  */
 public class FirstMissingPositive {
 
-    private int changePos(int[] nums, int index){
-        int temp = nums[index];
-        nums[index] = -1;
-        //TODO:把temp独立出来仅赋值
-        if(temp < 0 || temp >= nums.length || nums[temp] > nums.length || nums[temp] <= 0){
-            return -1;
-        }
-        nums[0] = nums[temp];
-        nums[temp] = temp;
-        return temp;
+    private int changePos(int[] nums, int pos){
+        int current = nums[pos];
+        nums[pos] = nums[current - 1];
+        nums[current - 1] = current;
+        return 0;
     }
 
     public int firstMissingPositive(int[] nums) {
+        for(int i = 0; i < nums.length;){
+            if(nums[i] != i + 1 && nums[i] > 0 && nums[i] <= nums.length && nums[nums[i] - 1] != nums[i]){
+                changePos(nums, i);
+            } else {
+                i++;
+            }
+        }
         for(int i = 0; i < nums.length; i++){
-            if(nums[i] != i && nums[i] > 0 && nums[i] < nums.length){
-                for(int next = changePos(nums, i); next != -1; next = changePos(nums, 0));
+            if(nums[i] != i + 1){
+                return i + 1;
             }
         }
-        for(int i = 1; i < nums.length; i++){
-            if(nums[i] != i){
-                return i;
-            }
-        }
-        return nums.length;
+        return nums.length + 1;
     }
 
     public static void main(String[] args) {
-        int[] nums = {0, 2, -1, 1};
+        int[] nums = {1, 1};
         FirstMissingPositive o = new FirstMissingPositive();
         System.out.println(o.firstMissingPositive(nums));
     }
