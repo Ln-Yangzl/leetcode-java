@@ -22,5 +22,6 @@ public class TestClass {
 //        }
 //        total = total.divide(new BigDecimal(strs.length), 2, RoundingMode.HALF_UP);
 //        System.out.println(total);
-        System.out.println(String.format("%.2f", 2.0));
+        TestClass testClass = new TestClass();
+        System.out.println(testClass.getClass().getSimpleName());
     }}
